@@ -15,5 +15,18 @@ Ultima atualização 04/02/2023
 
 A página web contruida para o relatório foi feita utilizando `hugo` e o build da pagina pode ser visualizado do diretório `docs/`, o codigo fonte da pagina não está presente em nenhum repositório atualmente.
 
+### Execução
 
+Para escutar a comunicação UDP (loopback), rodar em linha de comando:
 
+    sudo tcpdump -i lo -s 0  -w tcpdump.pcap host <name-host> and udp
+
+Para ler o arquivo tcpdump.pcap:
+
+    Usar wireshark:
+
+        sudo apt install wireshark-qt
+
+        wireshark tcpdump.pcap
+
+site: https://gobbedu.github.io/Canhao-UDP/
