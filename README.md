@@ -36,14 +36,6 @@ bash update_github_site.sh
 
 Para escutar a comunicação UDP (loopback), rodar em linha de comando:
 
-    sudo tcpdump -i lo -s 0  -w tcpdump.pcap host <name-host> and udp
-
-Para ler o arquivo tcpdump.pcap:
-
-    Usar wireshark:
-
-        sudo apt install wireshark-qt
-
-        wireshark tcpdump.pcap
+    sudo tcpdump -i lo -s 0 host <name-host> and udp
 
 site: https://gobbedu.github.io/Canhao-UDP/
