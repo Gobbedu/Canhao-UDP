@@ -1,5 +1,10 @@
 # Canhão UPD
 
+Autores: 
+- Anderson Aparecido do Carmo Frasão
+- Eduardo Gobbo Willi Vasconcellos Gonçalves
+Ultima atualização 04/02/2023
+
 ### Descrição do Trabalho
 
 1. O objetivo do Canhão UDP é examinar se há perda de pacote UDP/IP na nossa rede, e qual é a taxa aproximada desta perda. Além disso, deve ser verificado também se as mensagens são entregues fora de ordem.

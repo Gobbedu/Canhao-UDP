@@ -1,3 +1,10 @@
+# Makefile para o Canhão UDP
+# Autores: 
+# 	Anderson Aparecido do Carmo Frasão
+# 	Eduardo Gobbo Willi Vasconcellos Gonçalves
+# Ultima atualização 03/02/2023
+
+
 CC=gcc
 CFLAGS=-Wall
 
@@ -11,6 +18,8 @@ servidor:
 
 cliente:
 	$(CC) client-udp.c -o cliente
+
+#-----------------------------------------------------------------------------#
 
 clean:
 	rm -f *.o ~*
