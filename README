@@ -1,0 +1,19 @@
+README para o Canhão UDP
+Autores: 
+    Anderson Aparecido do Carmo Frasão
+    Eduardo Gobbo Willi Vasconcellos Gonçalves
+Ultima atualização 04/02/2023
+
+Para escutar a comunicação UDP (loopback), rodar em linha de comando:
+
+    sudo tcpdump -i lo -s 0  -w tcpdump.pcap host <name-host> and udp
+
+Para ler o arquivo tcpdump.pcap:
+
+    Usar wireshark:
+
+        sudo apt install wireshark-qt
+
+        wireshark tcpdump.pcap
+
+site: https://gobbedu.github.io/Canhao-UDP/
