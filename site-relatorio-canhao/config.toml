@@ -1,0 +1,7 @@
+baseURL = 'https://gobbedu.github.io/Canhao-UDP/'
+languageCode = 'en-us'
+title = 'My New Hugo Site'
+themes = 'hugo-book'
+
+[params]
+    BookTheme = 'dark'
