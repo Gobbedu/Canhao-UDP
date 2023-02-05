@@ -1,6 +1,8 @@
 /* 
     UM SERVIDOR TCP iterativo
-    Autor: Eduardo Gobbo Willi V.G.
+    Autores: 
+        Eduardo Gobbo Willi V.G.
+        Anderson Aparecido do Carmo Frasão
     ultima atualizacao. 01/fev/2023
 */
 
@@ -16,9 +18,13 @@
 #define TAM_FILA 5 // tamanho da fila no servidor
 #define MAXHOSTNAME 30 // tamanho do ip do servidor pode mudar
 
+void esvazia(char vetor[]){
+    for(int i=0;i<BUFSIZ+1;i++)
+        vetor[i]='\0';
+}
+
 int main(int argc, char *argv[]) {
-    int sock_escuta; // socket para escuta
-    int sock_atende; // para atender cliente    
+    int sock_escuta; // socket para escuta  
     struct sockaddr_in servaddr, clientaddr; // addr do servidor e cliente
     struct hostent *server; // registro que o DNS retorna pra nós (hp)
     char localhost[MAXHOSTNAME]; // ip do servidor
@@ -39,13 +45,15 @@ int main(int argc, char *argv[]) {
     }
 
     servaddr.sin_port = htons(atoi(argv[1]));
-    servaddr.sin_family = server->h_addrtype;
     bcopy((char*) server->h_addr, (char*) &servaddr.sin_addr, server->h_length);
+    servaddr.sin_family = server->h_addrtype;
 
     if ((sock_escuta = socket(server->h_addrtype, SOCK_DGRAM, 0)) < 0 ){
         perror("Nao consegui criar socket");
         exit(1);
     }
+
+    esvazia(buffer);
 
     if (bind(sock_escuta, (struct sockaddr *) &servaddr, sizeof(servaddr)) < 0){
         perror("Nao consegui fazer o bind");
@@ -54,9 +62,9 @@ int main(int argc, char *argv[]) {
 
     listen(sock_escuta, TAM_FILA);
 
-    int i;
+    unsigned int i;
     while(1) {
-        i = sizeof(servaddr);
+        i = sizeof(clientaddr);
         puts("Vou bloquear esperando mensagem.");
 
         //clean buffer
@@ -66,7 +74,8 @@ int main(int argc, char *argv[]) {
         printf("Sou o servidor, recebi a mensagem -----> %s\n", buffer);
 
         sendto(sock_escuta, buffer, BUFSIZ, 0, (struct sockaddr *) &clientaddr, i);
-        close(sock_atende);
+
+        esvazia(buffer);
 
     }
 

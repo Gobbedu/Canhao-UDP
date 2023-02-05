@@ -1,6 +1,8 @@
 /* 
     UM CLIENTE TCP
-    Autor: Eduardo Gobbo Willi V.G.
+    Autores: 
+        Eduardo Gobbo Willi V.G.
+        Anderson Aparecido do Carmo Frasão
     ultima atualizacao. 01/fev/2023
 */
 
@@ -12,6 +14,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+void esvazia(char vetor[],int tam){
+    for(int i=0;i<tam;i++)
+        vetor[i]='\0';
+}
 
 int main(int argc, char *argv[]) {
     int sockdescr;
@@ -47,6 +53,7 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
+    esvazia(buffer,BUFSIZ+1);
 
     if(sendto(sockdescr, dados, strlen(dados)+1, 0, (struct sockaddr *) &servaddr, sizeof(servaddr)) 
         != strlen(dados)+1) {

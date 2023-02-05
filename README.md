@@ -32,10 +32,4 @@ bash visualiza_site.sh
 bash update_github_site.sh
 ```
 
-### Execução
-
-Para escutar a comunicação UDP (loopback), rodar em linha de comando:
-
-    sudo tcpdump -i lo -s 0 host <name-host> and udp
-
 site: https://gobbedu.github.io/Canhao-UDP/
