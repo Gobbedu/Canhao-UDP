@@ -15,33 +15,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Função para converter int em char*
-char * itoa ( int value, char * str ){
-
-    char temp;
-    int i = 0;
-
-    while (value > 0) {
-        int digito = value % 10;
-
-        str[i] = digito + '0';
-        value /= 10;
-        i++;
-    }
-   
-    i = 0;
-    int j = strlen(str) - 1;
-
-    while (i < j) {
-        temp = str[i];
-        str[i] = str[j];
-        str[j] = temp;
-        i++;
-        j--;
-    }
-
-    return str;
-}   
 
 int main(int argc, char *argv[]) {
     int sockdescr;
@@ -50,7 +23,7 @@ int main(int argc, char *argv[]) {
     struct hostent *server; // hp
     char buffer[BUFSIZ+1];
     char *hostname;
-    char dados[3] = {0};
+    char dados[6] = {0};
 
     unsigned int i;
 
@@ -80,7 +53,8 @@ int main(int argc, char *argv[]) {
     for(int msg = 1; msg <= cont; msg++){
         memset(buffer,0,BUFSIZ+1);  // limpa o buffer
 
-        itoa(msg, dados);
+        // transforma int msg em char *dados;
+        sprintf(dados, "%d", msg); 
 
         if(sendto(sockdescr, dados, strlen(dados)+1, 0, (struct sockaddr *) &servaddr, sizeof(servaddr)) 
             != strlen(dados)+1) {

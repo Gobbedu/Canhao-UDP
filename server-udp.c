@@ -18,11 +18,6 @@
 #define TAM_FILA 5 // tamanho da fila no servidor
 #define MAXHOSTNAME 30 // tamanho do ip do servidor pode mudar
 
-void esvazia(char vetor[]){
-    for(int i=0;i<BUFSIZ+1;i++)
-        vetor[i]='\0';
-}
-
 int main(int argc, char *argv[]) {
     int sock_escuta; // socket para escuta  
     struct sockaddr_in servaddr, clientaddr; // addr do servidor e cliente
