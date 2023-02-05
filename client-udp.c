@@ -10,14 +10,11 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <unistd.h> // close()
 #include <netdb.h> // sistema DNS-revis
 #include <stdlib.h>
 #include <string.h>
 
-void esvazia(char vetor[],int tam){
-    for(int i=0;i<tam;i++)
-        vetor[i]='\0';
-}
 
 int main(int argc, char *argv[]) {
     int sockdescr;
@@ -53,7 +50,7 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    esvazia(buffer,BUFSIZ+1);
+    memset(buffer,0,BUFSIZ+1);  // limpa o buffer
 
     if(sendto(sockdescr, dados, strlen(dados)+1, 0, (struct sockaddr *) &servaddr, sizeof(servaddr)) 
         != strlen(dados)+1) {

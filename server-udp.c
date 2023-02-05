@@ -53,8 +53,6 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    esvazia(buffer);
-
     if (bind(sock_escuta, (struct sockaddr *) &servaddr, sizeof(servaddr)) < 0){
         perror("Nao consegui fazer o bind");
         exit(1);
@@ -67,16 +65,13 @@ int main(int argc, char *argv[]) {
         i = sizeof(clientaddr);
         puts("Vou bloquear esperando mensagem.");
 
-        //clean buffer
+        // limpa o buffer
         memset(buffer, 0, BUFSIZ);
 
         recvfrom(sock_escuta, buffer, BUFSIZ, 0, (struct sockaddr *) &clientaddr, &i);
         printf("Sou o servidor, recebi a mensagem -----> %s\n", buffer);
 
         sendto(sock_escuta, buffer, BUFSIZ, 0, (struct sockaddr *) &clientaddr, i);
-
-        esvazia(buffer);
-
     }
 
     exit(0);
