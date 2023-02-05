@@ -6,7 +6,7 @@
 
 
 CC=gcc
-CFLAGS=-Wall
+CFLAGS=-Wall -g
 
 
 .PHONY: all clean purge 
@@ -14,10 +14,10 @@ CFLAGS=-Wall
 all: servidor cliente
 
 servidor: 
-	$(CC) server-udp.c -o servidor
+	$(CC) $(CFLAGS) server-udp.c -o servidor
 
 cliente:
-	$(CC) client-udp.c -o cliente
+	$(CC) $(CFLAGS) canhao-client.c -o cliente
 
 #-----------------------------------------------------------------------------#
 
