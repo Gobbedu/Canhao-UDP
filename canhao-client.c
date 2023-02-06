@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
         memset(buffer,0,BUFSIZ+1);  // limpa o buffer
 
         // transforma int msg em char *dados;
-        sprintf(dados, "%d", msg); 
+        sprintf(dados, "%d %d", msg, cont); 
 
         if(sendto(sockdescr, dados, strlen(dados)+1, 0, (struct sockaddr *) &servaddr, sizeof(servaddr)) 
             != strlen(dados)+1) {

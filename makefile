@@ -2,19 +2,19 @@
 # Autores: 
 # 	Anderson Aparecido do Carmo Frasão
 # 	Eduardo Gobbo Willi Vasconcellos Gonçalves
-# Ultima atualização 03/02/2023
+# Ultima atualização 06/02/2023
 
 
 CC=gcc
 CFLAGS=-Wall -g
 
 
-.PHONY: all clean purge 
+.PHONY: servidor cliente clean purge 
 
 all: servidor cliente
 
 servidor: 
-	$(CC) $(CFLAGS) server-udp.c -o servidor
+	$(CC) $(CFLAGS) canhao-server.c -o servidor
 
 cliente:
 	$(CC) $(CFLAGS) canhao-client.c -o cliente
