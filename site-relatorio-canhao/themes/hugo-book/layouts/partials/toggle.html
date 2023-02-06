@@ -144,29 +144,29 @@
         this.classList.add('js-toggle--focus');
 
         // null : nao tem darkMode selected || true: TEM!
-        console.log("local storage of darkMode: ", localStorage.getItem('darkMode'));
+        // console.log("local storage of darkMode: ", localStorage.getItem('darkMode'));
         
 		//If dark mode is selected
 		if (this.classList.contains('js-toggle--checked')) {
-			body.classList.add('dark-mode');
+			body.classList.add('theme-dark');
 			//Save user preference in storage
 			localStorage.setItem('darkMode', 'true');
 		} else {
-			body.classList.remove('dark-mode');
+			body.classList.remove('theme-dark');
 			setTimeout(function() {
 				localStorage.removeItem('darkMode');
 			}, 100);
 		}
 
-        console.log("body has dark-mode class: ", body.classList.contains('dark-mode'));
+        // console.log("body has theme-dark class: ", body.classList.contains('theme-dark'));
 
 	})
 
 	//Check Storage. Keep user preference on page reload
 	if (localStorage.getItem('darkMode')) {
-		//body.classList.add('dark-mode');
+		//body.classList.add('theme-dark');
         switcher.classList.add('js-toggle--checked');
-        body.classList.add('dark-mode');
+        body.classList.add('theme-dark');
 	}
 
 </script>

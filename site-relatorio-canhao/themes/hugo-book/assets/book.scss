@@ -1,6 +1,13 @@
 @import "defaults";
 @import "variables";
-@import "themes/{{ default "light" .Site.Params.BookTheme }}";
+// @import "themes/{{ default "light" .Site.Params.BookTheme }}";
+// inclui ambos para usar no html
+.theme-light {
+    @include theme-light;
+}
+.theme-dark {
+    @include theme-dark;
+}
 
 @import "normalize";
 @import "utils";

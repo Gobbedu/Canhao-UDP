@@ -5,8 +5,6 @@ type: docs
 
 # Canhão UDP
 
-- Usando o tema "{{< param BookTheme >}}"
-
 ## Descrição do Trabalho
 
 
