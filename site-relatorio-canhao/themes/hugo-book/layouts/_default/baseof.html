@@ -18,6 +18,7 @@
       <header class="book-header">
         {{ template "header" . }} <!-- Mobile layout header -->
       </header>
+      {{ partial "partials/toggle.html" . }}
 
       {{ partial "docs/inject/content-before" . }}
       {{ template "main" . }} <!-- Page Content -->
