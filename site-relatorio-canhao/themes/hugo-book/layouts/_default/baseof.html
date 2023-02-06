@@ -4,7 +4,7 @@
   {{ partial "docs/html-head" . }}
   {{ partial "docs/inject/head" . }}
 </head>
-<body dir="{{ default "ltr" .Site.Language.LanguageDirection }}" class="theme-light">
+<body dir="{{ default "ltr" .Site.Language.LanguageDirection }}" class="theme-{{ .Site.Params.BookTheme }}">
   <input type="checkbox" class="hidden toggle" id="menu-control" />
   <input type="checkbox" class="hidden toggle" id="toc-control" />
   <main class="container flex">
@@ -18,7 +18,7 @@
       <header class="book-header">
         {{ template "header" . }} <!-- Mobile layout header -->
       </header>
-      {{ partial "partials/toggle.html" . }}
+      {{ partial "partials/toggle.html" . }} <!-- BOTAO QUE MUDA O TEMA -->
 
       {{ partial "docs/inject/content-before" . }}
       {{ template "main" . }} <!-- Page Content -->
