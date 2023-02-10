@@ -3,7 +3,7 @@
     Autores: 
         Eduardo Gobbo Willi V.G.
         Anderson Aparecido do Carmo Frasão
-    ultima atualizacao. 06/fev/2023
+    ultima atualizacao. 10/fev/2023
 */
 
 #include <stdio.h>
@@ -17,6 +17,10 @@
 
 #define TAM_FILA 5 // tamanho da fila no servidor
 #define MAXHOSTNAME 30 // tamanho do ip do servidor pode mudar
+
+/* 
+    PRECISAMOS DE UM TIMEOUT PARA POSSIVEIS PERDAS DE MENSAGEM
+*/
 
 int main(int argc, char *argv[]) {
     int sock_escuta; // socket para escuta  
@@ -114,22 +118,7 @@ int main(int argc, char *argv[]) {
             aux_cont++;
         }
         
-
         // Verifica se o contador local é diferente do numero total de mensagens enviadas
-        /* 
-            Problema: o contador local só vai ser igual ao numero de mensagens enviadas na ultima mensagem,
-            então essa verificação só deveria ser feita na ultima mensagem
-            mas estamos dentro de um while(true), e não queremos ficar recebendo mensagem 
-            de erro quando não esta errado...
-            Possivel solução:
-
-                le a primeira mensagem fora do laço
-                faz um for com o segundo valor da mensagem como limitante
-                e após o for, verifica se o contador local é igual ao numero de mensagens enviadas
-
-            Porém se a gente perder alguma mensagem, o servidor vai ficar travado esperando
-            podemos resolver isso com um timeout
-        */
         if(n_msg_aux != aux_cont)
             printf("Houve perda de mensagem!\n");
 
