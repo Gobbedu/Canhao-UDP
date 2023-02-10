@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
     }
 
     hostname = argv[1];
-    int cont = atoi(argv[3]);
+    long int cont = atoi(argv[3]);
 
     if((server = gethostbyname(hostname)) == NULL) { // cliente DNS chamado de resolvedor
         perror("Nao consegui obter of endereco IP do servidor");
@@ -50,11 +50,11 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    for(int msg = 1; msg <= cont; msg++){
+    for(long int msg = 1; msg <= cont; msg++){
         memset(buffer,0,BUFSIZ+1);  // limpa o buffer
 
         // transforma int msg em char *dados;
-        sprintf(dados, "%d %d", msg, cont); 
+        sprintf(dados, "%ld %ld", msg, cont); 
 
         if(sendto(sockdescr, dados, strlen(dados)+1, 0, (struct sockaddr *) &servaddr, sizeof(servaddr)) 
             != strlen(dados)+1) {

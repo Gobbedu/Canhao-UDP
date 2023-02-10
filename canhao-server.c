@@ -55,35 +55,65 @@ int main(int argc, char *argv[]) {
 
     listen(sock_escuta, TAM_FILA);
 
-    int aux_cont = 1;
+    long int aux_cont = 1;
     char cont[6] = {0};
-    // char* n_msg; // Descomentar depois, é usado para o teste de perda de mensagem
+    char* n_msg;
     char* n_sec;
 
     unsigned int i;
     while(1) {
         i = sizeof(clientaddr);
-        // puts("Vou bloquear esperando mensagem.");
+        puts("Vou bloquear esperando mensagem.");
 
-        // limpa o buffer
+        // Limpa o buffer
         memset(buffer, 0, BUFSIZ);
 
-        // transforma int msg em char *dados;
-        sprintf(cont, "%d", aux_cont);
-
+        // Recebe a primeira mensagem para poder definir o numero total de mensagens
+        // no for
         recvfrom(sock_escuta, buffer, BUFSIZ, 0, (struct sockaddr *) &clientaddr, &i);
-        // printf("Sou o servidor, recebi a mensagem -----> %s\n", buffer);
-
+        
+        // Encontra o numero de sequencia na mensagem
         n_sec = strtok(buffer, " ");
-        // n_msg = strtok(NULL, " "); // Descomentar depois, é usado para o teste de perda de mensagem
 
-        // Verifica se o contador local esta igual ao numero de sequencia presente na mensagem
-        // Esse verificador só funciona pra uma sequencia de mensagens
-        // Caso queira mandar outra sequencia, resete o servidor!!!!!!
-        if (strcmp(n_sec, cont) != 0)
-            printf("As mensagens estão fora de ordem!\n");
+        // Encontra o numero total de mensagens (só precisamos retirar esse valor 
+        // da primeira mensagem que recebermos)
+        n_msg = strtok(NULL, " ");
 
-        // int n_msg_aux = atoi(n_msg); // Descomentar depois, é usado para o teste de perda de mensagem
+        // printf("Sou o servidor, recebi a mensagem -----> %s\n", n_sec);
+
+        // Inicia o contador
+        aux_cont = 1;
+
+        // Define um long int para o numero total de mensagens
+        long int n_msg_aux = atoi(n_msg);
+
+        for (long int n = 1; n < n_msg_aux; n++){
+
+            // Transforma int msg em char *dados;
+            sprintf(cont, "%ld", aux_cont);
+            
+            // Verifica se o contador local esta igual ao numero de sequencia 
+            // presente na mensagem
+            if (strcmp(n_sec, cont) != 0)
+                printf("A mensagem %s esta fora de ordem!\n", n_sec);
+
+            // Retorna a mensagem para o cliente
+            sendto(sock_escuta, buffer, BUFSIZ, 0, (struct sockaddr *) &clientaddr, i);
+
+            // Limpa o buffer
+            memset(buffer, 0, BUFSIZ);
+
+            // Continua recebendo as mensagens até o numero total de mensagens
+            recvfrom(sock_escuta, buffer, BUFSIZ, 0, (struct sockaddr *) &clientaddr, &i);
+            
+            // Encontra o numero de sequencia na mensagem
+            n_sec = strtok(buffer, " ");
+
+            // printf("Sou o servidor, recebi a mensagem -----> %s\n", n_sec);
+
+            aux_cont++;
+        }
+        
 
         // Verifica se o contador local é diferente do numero total de mensagens enviadas
         /* 
@@ -100,11 +130,10 @@ int main(int argc, char *argv[]) {
             Porém se a gente perder alguma mensagem, o servidor vai ficar travado esperando
             podemos resolver isso com um timeout
         */
-        // if(n_msg_aux != aux_cont)
-        //     printf("Houve perda de mensagem!\n");
+        if(n_msg_aux != aux_cont)
+            printf("Houve perda de mensagem!\n");
 
-        aux_cont++;
-
+        // Retorna a ultima mensagem para o cliente
         sendto(sock_escuta, buffer, BUFSIZ, 0, (struct sockaddr *) &clientaddr, i);
     }
 
