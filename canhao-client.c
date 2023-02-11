@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
     char *hostname;
     char dados[6] = {0};
 
-    unsigned int i;
+    // unsigned int i;
 
 
     if(argc != 4) {
@@ -50,6 +50,9 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
+    printf("Iniciando envio de mensagens!\n");
+    printf("Serão enviadas %ld mensagens!\n", cont);
+
     for(long int msg = 1; msg <= cont; msg++){
         memset(buffer,0,BUFSIZ+1);  // limpa o buffer
 
@@ -62,9 +65,12 @@ int main(int argc, char *argv[]) {
             exit(1);
         }
 
-        recvfrom(sockdescr, buffer, BUFSIZ, 0, (struct sockaddr *) &servaddr, &i); // se servaddr nao eh NULL, preenche i bytes do sender com ele
-        fprintf(stdout, "Sou o cliente, recebi: %s\n", buffer);
+        // Não exclui pois podemos usar de debug se necessario
+        // recvfrom(sockdescr, buffer, BUFSIZ, 0, (struct sockaddr *) &servaddr, &i); // se servaddr nao eh NULL, preenche i bytes do sender com ele
+        // fprintf(stdout, "Sou o cliente, recebi: %s\n", buffer);
     }
+
+    printf("Todas as mensagens foram enviadas com sucesso!\n");
 
     close(sockdescr);
     exit(0);

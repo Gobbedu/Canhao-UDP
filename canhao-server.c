@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
     listen(sock_escuta, TAM_FILA);
 
     long int aux_cont = 1;
-    char cont[6] = {0};
+    char cont[10] = {0};
     char* n_msg;
     char* n_sec;
 
@@ -91,6 +91,9 @@ int main(int argc, char *argv[]) {
         // Define um long int para o numero total de mensagens
         long int n_msg_aux = atoi(n_msg);
 
+        // Variavel para saber se as mensagens se mantiveram em ordem
+        int ordem = 1;
+
         for (long int n = 1; n < n_msg_aux; n++){
 
             // Transforma int msg em char *dados;
@@ -98,11 +101,13 @@ int main(int argc, char *argv[]) {
             
             // Verifica se o contador local esta igual ao numero de sequencia 
             // presente na mensagem
-            if (strcmp(n_sec, cont) != 0)
-                printf("A mensagem %s esta fora de ordem!\n", n_sec);
+            if (strcmp(n_sec, cont) != 0){
+                printf("A mensagem %s esta fora de ordem!\n", cont);
+                ordem = 0;
+            }
 
-            // Retorna a mensagem para o cliente
-            sendto(sock_escuta, buffer, BUFSIZ, 0, (struct sockaddr *) &clientaddr, i);
+            // Retorna a mensagem para o cliente (não exclui pois podemos usar de debug se necessario)
+            // sendto(sock_escuta, buffer, BUFSIZ, 0, (struct sockaddr *) &clientaddr, i);
 
             // Limpa o buffer
             memset(buffer, 0, BUFSIZ);
@@ -118,12 +123,17 @@ int main(int argc, char *argv[]) {
             aux_cont++;
         }
         
+        if(ordem == 1)
+            printf("Todas as mensagens estão em ordem!\n");
+
         // Verifica se o contador local é diferente do numero total de mensagens enviadas
         if(n_msg_aux != aux_cont)
-            printf("Houve perda de mensagem!\n");
+            printf("Houve perda de mensagem!\n\n");
+        else
+            printf("Não houve perda de mensagem!\n\n");
 
-        // Retorna a ultima mensagem para o cliente
-        sendto(sock_escuta, buffer, BUFSIZ, 0, (struct sockaddr *) &clientaddr, i);
+        // Retorna a ultima mensagem para o cliente (não exclui pois podemos usar de debug se necessario)
+        // sendto(sock_escuta, buffer, BUFSIZ, 0, (struct sockaddr *) &clientaddr, i);
     }
 
     exit(0);
