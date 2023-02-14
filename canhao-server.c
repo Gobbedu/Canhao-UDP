@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
     unsigned int i;
     while(1) {
         i = sizeof(clientaddr);
-        puts("Vou bloquear esperando mensagem.");
+        puts("Vou bloquear esperando mensagem.\n");
 
         // Limpa o buffer
         memset(buffer, 0, BUFSIZ);
@@ -83,7 +83,7 @@ int main(int argc, char *argv[]) {
         // da primeira mensagem que recebermos)
         n_msg = strtok(NULL, " ");
 
-        // printf("Sou o servidor, recebi a mensagem -----> %s\n", n_sec);
+        printf("Sou o servidor, recebi a mensagem -> [ %s ", n_sec);
 
         // Inicia o contador
         aux_cont = 1;
@@ -102,7 +102,7 @@ int main(int argc, char *argv[]) {
             // Verifica se o contador local esta igual ao numero de sequencia 
             // presente na mensagem
             if (strcmp(n_sec, cont) != 0){
-                printf("A mensagem %s esta fora de ordem!\n", cont);
+                printf("\nA mensagem %s esta fora de ordem!\n", cont);
                 ordem = 0;
             }
 
@@ -118,10 +118,14 @@ int main(int argc, char *argv[]) {
             // Encontra o numero de sequencia na mensagem
             n_sec = strtok(buffer, " ");
 
+            printf("%s ", n_sec);
+
             // printf("Sou o servidor, recebi a mensagem -----> %s\n", n_sec);
 
             aux_cont++;
         }
+
+        printf("]\n\n");
         
         if(ordem == 1)
             printf("Todas as mensagens estão em ordem!\n");
