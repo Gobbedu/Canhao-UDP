@@ -50,8 +50,8 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    printf("Iniciando envio de mensagens!\n");
-    printf("Serão enviadas %ld mensagens!\n", cont);
+    printf("\nIniciando envio de mensagens!\n\n");
+    printf("Serão enviadas %ld mensagens!\n\n", cont);
 
     for(long int msg = 1; msg <= cont; msg++){
         memset(buffer,0,BUFSIZ+1);  // limpa o buffer
@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
         // fprintf(stdout, "Sou o cliente, recebi: %s\n", buffer);
     }
 
-    printf("Todas as mensagens foram enviadas com sucesso!\n");
+    printf("Todas as mensagens foram enviadas com sucesso!\n\n");
 
     close(sockdescr);
     exit(0);
