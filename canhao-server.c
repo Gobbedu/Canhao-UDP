@@ -14,6 +14,7 @@
 #include <netdb.h> // sistema DNS-revis
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 #define TAM_FILA 5 // tamanho da fila no servidor
 #define MAXHOSTNAME 30 // tamanho do ip do servidor pode mudar
@@ -59,86 +60,104 @@ int main(int argc, char *argv[]) {
 
     listen(sock_escuta, TAM_FILA);
 
-    long int aux_cont = 1;
-    char cont[10] = {0};
-    char* n_msg;
-    char* n_sec;
-
-    unsigned int i;
-    while(1) {
-        i = sizeof(clientaddr);
-        puts("Vou bloquear esperando mensagem.\n");
-
-        // Limpa o buffer
-        memset(buffer, 0, BUFSIZ);
-
-        // Recebe a primeira mensagem para poder definir o numero total de mensagens
-        // no for
-        recvfrom(sock_escuta, buffer, BUFSIZ, 0, (struct sockaddr *) &clientaddr, &i);
-        
-        // Encontra o numero de sequencia na mensagem
-        n_sec = strtok(buffer, " ");
-
-        // Encontra o numero total de mensagens (só precisamos retirar esse valor 
-        // da primeira mensagem que recebermos)
-        n_msg = strtok(NULL, " ");
-
-        printf("Sou o servidor, recebi a mensagem -> [ %s ", n_sec);
-
-        // Inicia o contador
-        aux_cont = 1;
-
-        // Define um long int para o numero total de mensagens
-        long int n_msg_aux = atoi(n_msg);
-
-        // Variavel para saber se as mensagens se mantiveram em ordem
-        int ordem = 1;
-
-        for (long int n = 1; n < n_msg_aux; n++){
-
-            // Transforma int msg em char *dados;
-            sprintf(cont, "%ld", aux_cont);
-            
-            // Verifica se o contador local esta igual ao numero de sequencia 
-            // presente na mensagem
-            if (strcmp(n_sec, cont) != 0){
-                printf("\nA mensagem %s esta fora de ordem!\n", cont);
-                ordem = 0;
-            }
-
-            // Retorna a mensagem para o cliente (não exclui pois podemos usar de debug se necessario)
-            // sendto(sock_escuta, buffer, BUFSIZ, 0, (struct sockaddr *) &clientaddr, i);
-
-            // Limpa o buffer
-            memset(buffer, 0, BUFSIZ);
-
-            // Continua recebendo as mensagens até o numero total de mensagens
-            recvfrom(sock_escuta, buffer, BUFSIZ, 0, (struct sockaddr *) &clientaddr, &i);
-            
-            // Encontra o numero de sequencia na mensagem
-            n_sec = strtok(buffer, " ");
-
-            printf("%s ", n_sec);
-
-            // printf("Sou o servidor, recebi a mensagem -----> %s\n", n_sec);
-
-            aux_cont++;
-        }
-
-        printf("]\n\n");
-        
-        if(ordem == 1)
-            printf("Todas as mensagens estão em ordem!\n");
-
-        // Verifica se o contador local é diferente do numero total de mensagens enviadas
-        if(n_msg_aux != aux_cont)
-            printf("Houve perda de mensagem!\n\n");
-        else
-            printf("Não houve perda de mensagem!\n\n");
-
-        // Retorna a ultima mensagem para o cliente (não exclui pois podemos usar de debug se necessario)
-        // sendto(sock_escuta, buffer, BUFSIZ, 0, (struct sockaddr *) &clientaddr, i);
+    // seta recv socket options to timeout at 7 seconds
+    struct timeval optval;
+    optval.tv_sec = 7;
+    optval.tv_usec = 0;
+    if (setsockopt(sock_escuta, SOL_SOCKET, SO_RCVTIMEO, &optval, sizeof(optval)) < 0) {
+        perror("Nao consegui setar timeout");
+        exit(1);
     }
 
+    long int esperado = 1,  // primeira mensagem esperada
+            num_total = -1, // numero total de mensagens
+            contador = 0,   // contador de mensagens recebidas
+            recebeu;        // mensagem recebida
+
+    int recebendo_sequencia = 0; // flag para log de sequencia: serv recebeu [1 .. X] OK
+
+    while(1){
+        printf("Servidor ouvindo na porta %d\n", atoi(argv[1]));
+
+        while(1) {
+            unsigned int i = sizeof(clientaddr);
+            // puts("Vou bloquear esperando mensagem.\n");
+
+            memset(buffer, 0, BUFSIZ);  // Limpa o buffer
+
+            // Recebe mensagem do cliente
+            int bytes = recvfrom(sock_escuta, buffer, BUFSIZ, 0, (struct sockaddr *) &clientaddr, &i);
+            
+            // if socket timeout, break
+            if((bytes < 1) && (errno == EAGAIN || errno == EWOULDBLOCK)){ 
+                // nao faz nada se nao iniciou canhao
+                // printf("kri kri, "); fflush(stdout);
+                if(num_total == -1) {
+                    continue;
+                }
+                printf("%ld ] OK\n", esperado-1);
+                printf("Servidor erro timeout recv : (%s); errno: (%d)\n", strerror(errno), errno);
+                break;
+            }
+            
+            // Encontra o numero de sequencia na mensagem
+            recebeu = atol(strtok(buffer, " "));    
+            contador++;
+
+            // seta o numero total da sequencia uma vez
+            if(num_total == -1) {
+                num_total = atol(strtok(NULL, " "));
+            }
+    
+            // esperava I, encontrou J => fora de sequencia, espera J++
+            if(recebeu != esperado){
+                // quebrou sequencia, finaliza seq no log
+                if(recebendo_sequencia){
+                    printf("%ld ] OK\n", esperado-1);
+                }
+
+                // avisa que perdeu sequencia no log
+                printf(
+                    "Servidor esperava %ld, recebeu %ld => fora de sequencia, espera %ld\n",
+                    esperado, recebeu, recebeu+1
+                );
+
+                esperado = recebeu+1;
+                recebendo_sequencia = 0;       
+            }
+
+            // recebeu [1 ate X] OK
+            else if(recebeu == esperado){
+                // reiniciando uma sequencia
+                if(!recebendo_sequencia){
+                    printf("Servidor recebeu [ %ld .. ", recebeu);
+                    recebendo_sequencia = 1;
+                }
+
+                // no meio de sequencia, continua
+                esperado = recebeu+1;
+            }
+
+            if(contador == num_total) {
+                if(recebendo_sequencia){
+                    printf("%ld ] OK\n", esperado-1);
+                }
+                printf("Servidor canhao: Todas as mensagens foram recebidas!\n");
+                break;
+            }
+        }
+
+        if(contador != num_total){
+            printf("Servidor canhao: foram perdidas %ld mensagens\n", num_total - contador);
+        }
+
+        // reinicia para escutar novamente
+        esperado = 1;  // primeira mensagem esperada
+        num_total = -1; // numero total de mensagens
+        contador = 0;   // contador de mensagens recebidas
+        recebendo_sequencia = 0;
+    }
+
+    close(sock_escuta);
     exit(0);
 }

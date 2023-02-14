@@ -29,12 +29,12 @@ int main(int argc, char *argv[]) {
 
 
     if(argc != 4) {
-        puts("Uso correto: cliente <nome-servidor> <porta> <dados>");
+        puts("Uso correto: cliente <nome-servidor> <porta> <num disparos>");
         exit(1);
     }
 
     hostname = argv[1];
-    long int cont = atoi(argv[3]);
+    long int num_total = atoi(argv[3]); // total de disparos
 
     if((server = gethostbyname(hostname)) == NULL) { // cliente DNS chamado de resolvedor
         perror("Nao consegui obter of endereco IP do servidor");
@@ -51,13 +51,13 @@ int main(int argc, char *argv[]) {
     }
 
     printf("\nIniciando envio de mensagens!\n\n");
-    printf("Serão enviadas %ld mensagens!\n\n", cont);
+    printf("Serão enviadas %ld mensagens!\n\n", num_total); 
 
-    for(long int msg = 1; msg <= cont; msg++){
+    for(long int msg = 1; msg <= num_total; msg++){ 
         memset(buffer,0,BUFSIZ+1);  // limpa o buffer
 
         // transforma int msg em char *dados;
-        sprintf(dados, "%ld %ld", msg, cont); 
+        sprintf(dados, "%ld %ld", msg, num_total);  
 
         if(sendto(sockdescr, dados, strlen(dados)+1, 0, (struct sockaddr *) &servaddr, sizeof(servaddr)) 
             != strlen(dados)+1) {
