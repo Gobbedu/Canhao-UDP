@@ -25,16 +25,16 @@ int main(int argc, char *argv[]) {
     char *hostname;
     char dados[6] = {0};
 
-    unsigned int i;
+    // unsigned int i;
 
 
     if(argc != 4) {
-        puts("Uso correto: cliente <nome-servidor> <porta> <dados>");
+        puts("Uso correto: cliente <nome-servidor> <porta> <num disparos>");
         exit(1);
     }
 
     hostname = argv[1];
-    int cont = atoi(argv[3]);
+    long int num_total = atoi(argv[3]); // total de disparos
 
     if((server = gethostbyname(hostname)) == NULL) { // cliente DNS chamado de resolvedor
         perror("Nao consegui obter of endereco IP do servidor");
@@ -50,11 +50,14 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    for(int msg = 1; msg <= cont; msg++){
+    printf("\nIniciando envio de mensagens!\n\n");
+    printf("Serão enviadas %ld mensagens!\n\n", num_total); 
+
+    for(long int msg = 1; msg <= num_total; msg++){ 
         memset(buffer,0,BUFSIZ+1);  // limpa o buffer
 
         // transforma int msg em char *dados;
-        sprintf(dados, "%d %d", msg, cont); 
+        sprintf(dados, "%ld %ld", msg, num_total);  
 
         if(sendto(sockdescr, dados, strlen(dados)+1, 0, (struct sockaddr *) &servaddr, sizeof(servaddr)) 
             != strlen(dados)+1) {
@@ -62,9 +65,12 @@ int main(int argc, char *argv[]) {
             exit(1);
         }
 
-        recvfrom(sockdescr, buffer, BUFSIZ, 0, (struct sockaddr *) &servaddr, &i); // se servaddr nao eh NULL, preenche i bytes do sender com ele
-        fprintf(stdout, "Sou o cliente, recebi: %s\n", buffer);
+        // Não exclui pois podemos usar de debug se necessario
+        // recvfrom(sockdescr, buffer, BUFSIZ, 0, (struct sockaddr *) &servaddr, &i); // se servaddr nao eh NULL, preenche i bytes do sender com ele
+        // fprintf(stdout, "Sou o cliente, recebi: %s\n", buffer);
     }
+
+    printf("Todas as mensagens foram enviadas com sucesso!\n\n");
 
     close(sockdescr);
     exit(0);
