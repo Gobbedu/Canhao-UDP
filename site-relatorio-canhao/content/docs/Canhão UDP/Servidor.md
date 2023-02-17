@@ -1,6 +1,6 @@
 # Servidor UDP
 
-O objetivo do servidor é analisar as mensagens recebidas e imprimir em um log a sequência de eventos que vão ocorrer. Por exemplo, qual sequencia chegou em ordem, em qual momento uma mensagem chegou fora da sequência, etc.
+O objetivo do servidor é analisar as mensagens recebidas e imprimir em um log a sequência de eventos que vão ocorrer. Por exemplo, qual sequência chegou em ordem, em qual momento uma mensagem chegou fora da sequência, etc.
 
 O servidor deve ser executado da seguinte maneira:
 ```sh
