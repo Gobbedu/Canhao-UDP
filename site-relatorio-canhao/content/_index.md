@@ -36,7 +36,7 @@ ambos os links abaixo. Todo o trabalho está salvo e pode também ser acessado n
 
 ## Mais informações
 
-O código também pode ser navegado utilizando  
+O código também pode ser visualizado utilizando as barras no menu lateral.
 
 
 ## Autores
