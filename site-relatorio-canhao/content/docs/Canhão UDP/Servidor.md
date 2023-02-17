@@ -1,8 +1,8 @@
 # Servidor UDP
 
-O objetivo do servidor é analisar as mensagens recebidas e imprimir em um log a sequência de eventos que vão ocorrer. e.g Qual sequencia chegou em order, em qual momento uma mensagem chegou fora da sequencia, etc.
+O objetivo do servidor é analisar as mensagens recebidas e imprimir em um log a sequência de eventos que vão ocorrer. Por exemplo, qual sequencia chegou em ordem, em qual momento uma mensagem chegou fora da sequência, etc.
 
-O servidor deve ser executado da seguinte maneira
+O servidor deve ser executado da seguinte maneira:
 ```sh
 ./servidor <porta>
 ```
@@ -109,4 +109,4 @@ if(contador != num_total){
 {{< hint danger >}}
 O código fonte RAW pode ser acessado [aqui](https://raw.githubusercontent.com/Gobbedu/Canhao-UDP/main/canhao-server.c). 
 {{< /hint >}}
-Mais informações sobre a origem do código fonte podem ser vistos na pagina [home](../../..) do site
+Mais informações sobre a origem do código fonte podem ser vistos na pagina [home](../../..) do site.

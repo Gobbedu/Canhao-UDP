@@ -3,12 +3,12 @@
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta name=description content="Canhão UDP #   Descrição #  Este trabalho consiste da implementação de um sistema cliente-servidor, onde o sistema irá operar sobre o protocolo de transporte UDP.
-Nesta implementação, o cliente irá enviar uma quantidade significativa de dados (&ldquo;canhão&rdquo;) para o servidor. Ao receber os dados, o servidor irá tomar conta e analisar conforme as mensagens chegam, quais pacotes tiveram usa ordem invertida e quanto pacotes nunca chegaram.
+Nesta implementação, o cliente irá enviar uma quantidade significativa de dados (&ldquo;canhão&rdquo;) para o servidor. Ao receber os dados, o servidor irá tomar conta e analisar conforme as mensagens chegam, quais pacotes tiveram sua ordem invertida e quantos pacotes nunca chegaram.
 Objetivo #  O objetivo deste trabalho é poder medir o desempenho da rede, ao medir quantos pacotes tiveram sua ordem de chegada invertida e quantos não chegaram ao final.">
 <meta name=theme-color content="#FFFFFF">
 <meta name=color-scheme content="light dark"><meta property="og:title" content>
 <meta property="og:description" content="Canhão UDP #   Descrição #  Este trabalho consiste da implementação de um sistema cliente-servidor, onde o sistema irá operar sobre o protocolo de transporte UDP.
-Nesta implementação, o cliente irá enviar uma quantidade significativa de dados (&ldquo;canhão&rdquo;) para o servidor. Ao receber os dados, o servidor irá tomar conta e analisar conforme as mensagens chegam, quais pacotes tiveram usa ordem invertida e quanto pacotes nunca chegaram.
+Nesta implementação, o cliente irá enviar uma quantidade significativa de dados (&ldquo;canhão&rdquo;) para o servidor. Ao receber os dados, o servidor irá tomar conta e analisar conforme as mensagens chegam, quais pacotes tiveram sua ordem invertida e quantos pacotes nunca chegaram.
 Objetivo #  O objetivo deste trabalho é poder medir o desempenho da rede, ao medir quantos pacotes tiveram sua ordem de chegada invertida e quantos não chegaram ao final.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://gobbedu.github.io/Canhao-UDP/docs/canh%C3%A3o-udp/canh%C3%A3o/"><meta property="article:section" content="docs">
@@ -17,7 +17,7 @@ Objetivo #  O objetivo deste trabalho é poder medir o desempenho da rede, ao me
 <link rel=icon href=/Canhao-UDP/favicon.png type=image/x-icon>
 <link rel=stylesheet href=/Canhao-UDP/book.min.1f20bb1eca1a001a8f11cb7468cc543388e0b3a832152dcb8e79c675fffb86ea.css integrity="sha256-HyC7HsoaABqPEct0aMxUM4jgs6gyFS3LjnnGdf/7huo=" crossorigin=anonymous>
 <script defer src=/Canhao-UDP/flexsearch.min.js></script>
-<script defer src=/Canhao-UDP/en.search.min.e38931afedcb1641ce9789ef0298a35f72609deef78e03ad3ac53fd5e0c6626b.js integrity="sha256-44kxr+3LFkHOl4nvApijX3Jgne73jgOtOsU/1eDGYms=" crossorigin=anonymous></script>
+<script defer src=/Canhao-UDP/en.search.min.9e17989f64c4253cd11b42f2f30555686465109ec0557de524f527aadec07d85.js integrity="sha256-nheYn2TEJTzRG0Ly8wVVaGRlEJ7AVX3lJPUnqt7AfYU=" crossorigin=anonymous></script>
 </head>
 <body dir=ltr class=theme-light>
 <input type=checkbox class="hidden toggle" id=menu-control>
@@ -136,13 +136,13 @@ Descrição
 <a class=anchor href=#descri%c3%a7%c3%a3o>#</a>
 </h2>
 <p>Este trabalho consiste da implementação de um sistema cliente-servidor, onde o sistema irá operar sobre o protocolo de transporte UDP.</p>
-<p>Nesta implementação, o cliente irá enviar uma quantidade significativa de dados (&ldquo;canhão&rdquo;) para o servidor. Ao receber os dados, o servidor irá tomar conta e analisar conforme as mensagens chegam, quais pacotes tiveram usa ordem invertida e quanto pacotes nunca chegaram.</p>
+<p>Nesta implementação, o cliente irá enviar uma quantidade significativa de dados (&ldquo;canhão&rdquo;) para o servidor. Ao receber os dados, o servidor irá tomar conta e analisar conforme as mensagens chegam, quais pacotes tiveram sua ordem invertida e quantos pacotes nunca chegaram.</p>
 <h2 id=objetivo>
 Objetivo
 <a class=anchor href=#objetivo>#</a>
 </h2>
 <p>O objetivo deste trabalho é poder medir o desempenho da rede, ao medir quantos pacotes tiveram sua ordem de chegada invertida e quantos não chegaram ao final.</p>
-<p>Primeiramente, o servidor deve ser executado e deixado &ldquo;rodando&rdquo; antes de se executar o cliente. Ao ser executado, o servidor irá tentar obter seu endereço IP, abrir um socket e solicitar o uso da porta especificada para o sistema operacional. Em seguida, o servidor entrará em um laço infinito, onde irá receber mensagens do cliente e irá salvar no log a sequencia de eventos que vão ocorrer. Caso o número de pacotes enviados seja inferior ao número de pacotes recebidos, o servidor irá enviar um mensagem de erro após 10 segundos sem receber novos pacotes.</p>
+<p>Primeiramente, o servidor deve ser executado e deixado &ldquo;rodando&rdquo; antes de se executar o cliente. Ao ser executado, o servidor irá tentar obter seu endereço IP, abrir um socket e solicitar o uso da porta especificada para o sistema operacional. Em seguida, o servidor entrará em um laço infinito, onde irá receber mensagens do cliente e irá salvar no log a sequência de eventos que vão ocorrer. Caso o número de pacotes enviados seja inferior ao número de pacotes recebidos, o servidor irá enviar um mensagem de erro após 10 segundos sem receber novos pacotes.</p>
 <p>Os clientes iniciam em uma sequência de passos semelhante, onde irão tentar obter o endereço IP do servidor e criar um socket. Neste ponto, o sistema está pronto para iniciar o tráfego de mensagens.</p>
 <p>Mais detalhes sobre a execução do <a href=../servidor>servidor</a> e do <a href=../cliente>cliente</a> são apresentados nestes links.</p>
 </article>
