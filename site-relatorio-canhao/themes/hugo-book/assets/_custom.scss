@@ -1,3 +1,20 @@
 /* You can add custom styles here. */
 
 // @import "plugins/numbered";
+
+.center, figure, img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+.round, figure, img {
+    border-radius: 5%;
+  }
+  
+// Example usage:
+figure {
+    @extend .center;
+    @extend .round;
+}
+  

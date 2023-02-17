@@ -1,5 +1,5 @@
 /* 
-    UM CLIENTE TCP
+    UM CLIENTE UDP
     Autores: 
         Eduardo Gobbo Willi V.G.
         Anderson Aparecido do Carmo Frasão
@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
     }
 
     hostname = argv[1];
-    long int num_total = atoi(argv[3]); // total de disparos
+    long int num_total = atol(argv[3]); // total de disparos
 
     if((server = gethostbyname(hostname)) == NULL) { // cliente DNS chamado de resolvedor
         perror("Nao consegui obter of endereco IP do servidor");

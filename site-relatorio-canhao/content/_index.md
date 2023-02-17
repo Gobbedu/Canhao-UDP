@@ -3,7 +3,9 @@ title: Introdução
 type: docs
 ---
 
-# Canhão UDP
+# Relatório de Redes II 
+<!-- {{< figure src="ufpr.png" >}} -->
+**Universidade Federal do Paraná UFPR  2022-2 (2023)**
 
 ## Descrição do Trabalho
 
@@ -18,35 +20,28 @@ O trabalho deve ser feito em **dupla**; o código, os testes e o relatório deve
 3. Devem ser apresentados logs para múltiplas execuções com cliente e servidor executando em hosts distintos. Mostre com clareza situações em que há perda de mensagens, ou entrega fora de ordem.
 Cada dupla pode fazer a implementação na linguagem que escolher, o professor sugere Python pela produtividade, mas neste semestre específico quem implementar em Python deve implementar também em C. A diversidade é bem vinda: vão ser valorizados trabalhos em outras linguagens.
 
-## Kernel 
-{{< hint danger >}}
-Parte principal do código que envia mensagens repetidamente.
 
-Cliente Canhão UDP :
+## Código Fonte
+{{< hint warning >}}
+
+Como requisitado, o código fonte pode ser aberto RAW no browser, utilizando 
+ambos os links abaixo. Todo o trabalho está salvo e pode também ser acessado neste [repositório](https://github.com/Gobbedu/Canhao-UDP) do Github.
+
+- o link para o canhão UDP do [cliente](https://raw.githubusercontent.com/Gobbedu/Canhao-UDP/main/canhao-client.c)
+- o link para o canhão UDP do [servidor](https://raw.githubusercontent.com/Gobbedu/Canhao-UDP/main/canhao-server.c)
+
 {{< /hint >}}
 
+  </br>
 
-```c
-for(int msg = 1; msg <= cont; msg++){
-    memset(buffer,0,BUFSIZ+1);  // limpa o buffer
+## Mais informações
 
-    // transforma int msg em char *dados;
-    sprintf(dados, "%d", msg); 
+O código também pode ser navegado utilizando  
 
-    if(sendto(sockdescr, dados, strlen(dados)+1, 0, (struct sockaddr *) &servaddr, sizeof(servaddr)) 
-        != strlen(dados)+1) {
-        perror("Nao consegui transmitir dados");
-        exit(1);
-    }
-
-    // se servaddr nao eh NULL, preenche i bytes do sender com ele
-    recvfrom(sockdescr, buffer, BUFSIZ, 0, (struct sockaddr *) &servaddr, &i); 
-    fprintf(stdout, "Sou o cliente, recebi: %s\n", buffer);
-}
-```
 
 ## Autores
 
 - Eduardo Gobbo Willi Vasconcellos Gonçalves, ([Github](https://github.com/Gobbedu))
 - Anderson Aparecido do Carmo Frasão, ([Github](https://github.com/carmofrasao))
+
 

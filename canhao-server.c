@@ -1,5 +1,5 @@
 /* 
-    UM SERVIDOR TCP iterativo
+    UM SERVIDOR UDP iterativo
     Autores: 
         Eduardo Gobbo Willi V.G.
         Anderson Aparecido do Carmo Frasão
@@ -60,9 +60,9 @@ int main(int argc, char *argv[]) {
 
     listen(sock_escuta, TAM_FILA);
 
-    // seta recv socket options to timeout at 7 seconds
+    // seta recv socket options to timeout at 10 seconds
     struct timeval optval;
-    optval.tv_sec = 7;
+    optval.tv_sec = 10;
     optval.tv_usec = 0;
     if (setsockopt(sock_escuta, SOL_SOCKET, SO_RCVTIMEO, &optval, sizeof(optval)) < 0) {
         perror("Nao consegui setar timeout");
@@ -88,13 +88,14 @@ int main(int argc, char *argv[]) {
             // Recebe mensagem do cliente
             int bytes = recvfrom(sock_escuta, buffer, BUFSIZ, 0, (struct sockaddr *) &clientaddr, &i);
             
-            // if socket timeout, break
+            // ouve erro no recv
             if((bytes < 1) && (errno == EAGAIN || errno == EWOULDBLOCK)){ 
                 // nao faz nada se nao iniciou canhao
                 // printf("kri kri, "); fflush(stdout);
                 if(num_total == -1) {
                     continue;
                 }
+                // houve erro, encerra log com ultima mensagem recebida
                 printf("%ld ] OK\n", esperado-1);
                 printf("Servidor erro timeout recv : (%s); errno: (%d)\n", strerror(errno), errno);
                 break;
@@ -104,7 +105,7 @@ int main(int argc, char *argv[]) {
             recebeu = atol(strtok(buffer, " "));    
             contador++;
 
-            // seta o numero total da sequencia uma vez
+            // setar o numero total da sequencia uma vez
             if(num_total == -1) {
                 num_total = atol(strtok(NULL, " "));
             }
