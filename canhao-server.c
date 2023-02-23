@@ -151,6 +151,9 @@ int main(int argc, char *argv[]) {
         if(contador != num_total){
             printf("Servidor canhao: foram perdidas %ld mensagens\n", num_total - contador);
         }
+        float porcentagem = ((float) contador / (float) num_total) * 100;
+        printf("Servidor canhao: foi recebido %.2f%% do total de disparos!\n", porcentagem);
+        printf("Servidor canhao: foi perdido  %.2f%% do total de disparos!\n", (float) 100 - porcentagem);
 
         // reinicia para escutar novamente
         esperado = 1;  // primeira mensagem esperada
